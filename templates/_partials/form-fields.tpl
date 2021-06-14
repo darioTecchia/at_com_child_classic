@@ -32,7 +32,7 @@
 {else}
 
   <div class="form-group row {if !empty($field.errors)}has-error{/if}">
-    <label class="col-md-3 form-control-label{if $field.required} required{/if}">
+    <label for="fi_{$field.name}" class="col-md-3 form-control-label{if $field.required} required{/if}">
       {if $field.type !== 'checkbox'}
         {$field.label}
       {/if}
@@ -42,7 +42,7 @@
       {if $field.type === 'select'}
 
         {block name='form_field_item_select'}
-          <select class="form-control form-control-select" name="{$field.name}" {if $field.required}required{/if}>
+          <select id="fi_{$field.name}" class="form-control form-control-select" name="{$field.name}" {if $field.required}required{/if}>
             <option value disabled selected>{l s='-- please choose --' d='Shop.Forms.Labels'}</option>
             {foreach from=$field.availableValues item="label" key="value"}
               <option value="{$value}" {if $value eq $field.value} selected {/if}>{$label}</option>
@@ -60,9 +60,10 @@
 
         {block name='form_field_item_country'}
           <select
-          class="form-control form-control-select js-country"
-          name="{$field.name}"
-          {if $field.required}required{/if}
+            id="fi_{$field.name}"
+            class="form-control form-control-select js-country"
+            name="{$field.name}"
+            {if $field.required}required{/if}
           >
             <option value disabled selected>{l s='-- please choose --' d='Shop.Forms.Labels'}</option>
             {foreach from=$field.availableValues item="label" key="value"}
@@ -75,15 +76,15 @@
 
         {block name='form_field_item_country_c'}
           <select
-            id="id_country"
+            id="fi_{$field.name}"
             data-states-url="api/states"
             class="form-control form-control-select"
             name="{$field.name}"
             {if $field.required}required{/if}
           >
             <option value disabled selected>{l s='-- please choose --' d='Shop.Forms.Labels'}</option>
-            {foreach from=$field.availableValues item="label" key="value"}
-              <option value="{$value}" {if $value eq $field.value} selected {/if}>{$label}</option>
+            {foreach from=$field.availableValues item="country" key="value"}
+              <option need_dni="{$country.need_identification_number}" need_postcode="{$country.need_zip_code}" value="{$value}" {if $value eq $field.value} selected {/if}>{$country.name}</option>
             {/foreach}
           </select>
         {/block}
@@ -92,12 +93,11 @@
 
         {block name='form_field_item_state'}
           <select
-            id="id_state"
+            id="fi_{$field.name}"
             class="form-control form-control-select js-state-selection-block"
             name="{$field.name}"
             {if $field.required}required{/if}
           >
-            <option value disabled selected>{l s='-- please choose --' d='Shop.Forms.Labels'}</option>
             {foreach from=$field.availableValues item="label" key="value"}
               <option value="{$value}" {if $value eq $field.value} selected {/if}>{$label}</option>
             {/foreach}
@@ -108,9 +108,10 @@
 
         {block name='form_field_item_radio'}
           {foreach from=$field.availableValues item="label" key="value"}
-            <label class="radio-inline">
+            <label class="radio-inline" for="fi_{$field.name}">
               <span class="custom-radio">
                 <input
+                  id="fi_{$field.name}"
                   name="{$field.name}"
                   type="radio"
                   value="{$value}"
@@ -128,8 +129,8 @@
 
         {block name='form_field_item_checkbox'}
           <span class="custom-checkbox">
-            <label>
-              <input name="{$field.name}" type="checkbox" value="1" {if $field.value}checked="checked"{/if} {if $field.required}required{/if}>
+            <label for="fi_{$field.name}">
+              <input id="fi_{$field.name}" name="{$field.name}" type="checkbox" value="1" {if $field.value}checked="checked"{/if} {if $field.required}required{/if}>
               <span><i class="material-icons rtl-no-flip checkbox-checked">&#xE5CA;</i></span>
               {$field.label nofilter}
             </label>
@@ -139,7 +140,7 @@
       {elseif $field.type === 'date'}
 
         {block name='form_field_item_date'}
-          <input name="{$field.name}" class="form-control" type="date" value="{$field.value}" placeholder="{if isset($field.availableValues.placeholder)}{$field.availableValues.placeholder}{/if}">
+          <input id="fi_{$field.name}" name="{$field.name}" class="form-control" type="date" value="{$field.value}" placeholder="{if isset($field.availableValues.placeholder)}{$field.availableValues.placeholder}{/if}">
           {if isset($field.availableValues.comment)}
             <span class="form-control-comment">
               {$field.availableValues.comment}
@@ -174,6 +175,7 @@
         {block name='form_field_item_password'}
           <div class="input-group js-parent-focus">
             <input
+              id="fi_{$field.name}"
               class="form-control js-child-focus js-visible-password"
               name="{$field.name}"
               title="{l s='At least 5 characters long' d='Shop.Forms.Help'}"
@@ -200,6 +202,7 @@
 
         {block name='form_field_item_other'}
           <input
+            id="fi_{$field.name}"
             class="form-control"
             name="{$field.name}"
             type="{$field.type}"
