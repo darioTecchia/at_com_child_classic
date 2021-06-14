@@ -71,6 +71,39 @@
           </select>
         {/block}
 
+      {elseif $field.type === 'country'}
+
+        {block name='form_field_item_country_c'}
+          <select
+            id="id_country"
+            data-states-url="api/states"
+            class="form-control form-control-select"
+            name="{$field.name}"
+            {if $field.required}required{/if}
+          >
+            <option value disabled selected>{l s='-- please choose --' d='Shop.Forms.Labels'}</option>
+            {foreach from=$field.availableValues item="label" key="value"}
+              <option value="{$value}" {if $value eq $field.value} selected {/if}>{$label}</option>
+            {/foreach}
+          </select>
+        {/block}
+
+      {elseif $field.type === 'state'}
+
+        {block name='form_field_item_state'}
+          <select
+            id="id_state"
+            class="form-control form-control-select js-state-selection-block"
+            name="{$field.name}"
+            {if $field.required}required{/if}
+          >
+            <option value disabled selected>{l s='-- please choose --' d='Shop.Forms.Labels'}</option>
+            {foreach from=$field.availableValues item="label" key="value"}
+              <option value="{$value}" {if $value eq $field.value} selected {/if}>{$label}</option>
+            {/foreach}
+          </select>
+        {/block}
+
       {elseif $field.type === 'radio-buttons'}
 
         {block name='form_field_item_radio'}
